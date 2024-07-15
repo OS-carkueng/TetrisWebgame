@@ -7,7 +7,7 @@ const AllRotationStates = [RotationState0,RotationState1,RotationState2,Rotation
 let distanceTravelledx = 0;
 let distanceTravelledy = 0;
 let collisonstate;
-document.body.style.zoom="100%"
+document.body.style.zoom="50%"
 
 
 var myGamePiece;
