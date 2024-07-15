@@ -7,6 +7,7 @@ const AllRotationStates = [RotationState0,RotationState1,RotationState2,Rotation
 let distanceTravelledx = 0;
 let distanceTravelledy = 0;
 let collisonstate;
+document.body.style.zoom="100%"
 
 
 var myGamePiece;
@@ -233,8 +234,9 @@ else {return true;}
 
 
 function randomBlock() {
-    let randomNumber = Math.floor(Math.random() * 7);
-    randomNumber=4;
+ //   let randomNumber = Math.floor(Math.random() * 7);
+    let randomNumber = Math.floor(Math.random() * 2);
+
     //square
     if (randomNumber==0){
         myGamePiece = new component(20, 20, "yellow", 50, 0,"square");
@@ -243,9 +245,36 @@ function randomBlock() {
         myGamepieceCords[2] = [5,1]
         myGamepieceCords[3] = [6,1]
         myGamePieceType = "square";
+        rotationState = 0;
+
+       // for (let i = 0; i > 4; i++) {
+       //     AllRotationStates[i][0] = [5,0]
+       //     AllRotationStates[i][1] = [6,0]
+       //     AllRotationStates[i][2] = [5,1]
+       //     AllRotationStates[i][3] = [6,1]
+       // }
+        RotationState0[0] = [5,0]
+        RotationState0[1] = [6,0]
+        RotationState0[2] = [5,1]
+        RotationState0[3] = [6,1]
+        
+        RotationState1[0] = [5,0]
+        RotationState1[1] = [6,0]
+        RotationState1[2] = [5,1]
+        RotationState1[3] = [6,1]
+
+        RotationState2[0] = [5,0]
+        RotationState2[1] = [6,0]
+        RotationState2[2] = [5,1]
+        RotationState2[3] = [6,1]
+
+        RotationState3[0] = [5,0]
+        RotationState3[1] = [6,0]
+        RotationState3[2] = [5,1]
+        RotationState3[3] = [6,1]
     }
     //L
-    if (randomNumber==1){
+    if (randomNumber==4){
         myGamePiece = new component(10, 30, "orange", 50, 0,"L");
         myGamepieceCords[0] = [5,0]
         myGamepieceCords[1] = [5,1]
@@ -253,7 +282,7 @@ function randomBlock() {
         myGamepieceCords[3] = [6,2]
         myGamePieceType = "L";
     }
-//the other L
+    //the other L
     if (randomNumber==2){
         myGamePiece = new component(10, 30, "blue", 50, 0,"J");
         myGamepieceCords[0] = [5,0]
@@ -262,7 +291,7 @@ function randomBlock() {
         myGamepieceCords[3] = [4,2]
         myGamePieceType = "J";
     }
-//T
+   //T
     if (randomNumber==3){
         myGamePiece = new component(30, 10, "blue", 40, 0,"T");
         myGamepieceCords[0] = [4,1]
@@ -272,7 +301,7 @@ function randomBlock() {
         myGamePieceType = "T";
     }
 //I
-    if (randomNumber==4){
+    if (randomNumber==1){
         myGamePiece = new component(40, 10, "cyan", 30, 0,"I");
         myGamepieceCords[0] = [3,0]
         myGamepieceCords[1] = [4,0]
