@@ -7,7 +7,8 @@ const AllRotationStates = [RotationState0,RotationState1,RotationState2,Rotation
 let distanceTravelledx = 0;
 let distanceTravelledy = 0;
 let collisonstate;
-document.body.style.zoom="50%"
+let isGameover = false;
+document.body.style.zoom="80%"
 
 
 var myGamePiece;
@@ -41,9 +42,9 @@ function startGame() {
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
-     //   TetrisMusic.play();
-
-        TetrisMusic.volume = 0.7;
+       //TetrisMusic.play();
+       isGameover = false;
+        TetrisMusic.volume = 0.2;
         this.canvas.width = 100;
         this.canvas.height = 200;
         this.context = this.canvas.getContext("2d");
@@ -64,6 +65,7 @@ var myGameArea = {
 }
 //Blöcke macher
 function component(width, height, color, x, y, type) {
+    if (isGameover==false){
     this.width = width;
     this.height = height;
     this.x = x;
@@ -134,7 +136,7 @@ function component(width, height, color, x, y, type) {
             distanceTravelledx += 1}
         }     
         
-
+    }
 }
 
 function inputLag() {cooldown = 0;
@@ -143,9 +145,10 @@ function inputLag() {cooldown = 0;
 
 
 function updateGameArea() {
+    if (isGameover==false) {
+
     if (myGameArea.key && myGameArea.key == 38&&rotationCooldown==0) {rotationCooldown=1
         rotateClockwise()
-        //console.log("rotate");
     }
     if (myGameArea.key && myGameArea.key == 40&&rotationCooldown==0) {rotationCooldown=1
         rotateCounterClockwise();   
@@ -153,11 +156,20 @@ function updateGameArea() {
     myGameArea.clear();
 
     myGamePiece.update();
+
+//gameoverlinie
+ctx = myGameArea.context;  
+ctx.beginPath();
+ctx.moveTo(0, 20);
+ctx.lineTo(200, 20);
+ctx.stroke();
+
     for (let i = 0; i < blocks.length; i++) {
         blocks[i].update();
     }
     myGamePiece.newPos();    
     myGamePiece.update();
+}
 }
 function blockFall() {
     if (canMove(myGamePiece.x,myGamePiece.y,myGamePiece.type)==true) {
@@ -178,7 +190,7 @@ grid[myGamepieceCords[2][1]][myGamepieceCords[2][0]] = 1;
 grid[myGamepieceCords[3][1]][myGamepieceCords[3][0]] = 1;
 }
        
-     //   console.log(grid)
+     console.log(grid)
         
 //Tetris?
         for (let i = 0; i < 20; i++) {
@@ -196,6 +208,8 @@ grid[myGamepieceCords[3][1]][myGamepieceCords[3][0]] = 1;
                   
             }
         }
+//Gameover?
+checkGameover()
 //ersatzblöcke platzieren
         blocks.splice(0,blocks.length)
         for (let i=0; i < 20; i++) {
@@ -208,12 +222,13 @@ grid[myGamepieceCords[3][1]][myGamepieceCords[3][0]] = 1;
             }
            }
 //"neuer" Block spawn
+if (isGameover==false){
    myGamePiece.y = 50;
    myGamePiece.x = 50;
    distanceTravelledx = 0;
    distanceTravelledy = 0;
   randomBlock()
-}}
+    }}}
 
 function canMove(x,y,type) {
 //square test
@@ -392,6 +407,21 @@ function rotateCounterClockwise(){
             collisonstate = 1;
             return true;
             }}
-            
-
     }
+
+function checkGameover() {
+    for (let q=0; q < 10; q++){
+   if(  grid[0][q] == 1) {
+    Gameover()
+   }}
+}
+function Gameover() {
+    console.log("Gameover")
+    isGameover = true;
+    ctx = myGameArea.context;  
+
+
+    ctx.font = "20px Arial";
+    ctx.fillStyle = "black";
+    ctx.fillText("Gameover",5,40);
+}
