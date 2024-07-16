@@ -8,6 +8,7 @@ let distanceTravelledx = 0;
 let distanceTravelledy = 0;
 let collisonstate;
 let isGameover = false;
+let score;
 document.body.style.zoom="80%"
 
 
@@ -44,6 +45,7 @@ var myGameArea = {
     start : function() {
        //TetrisMusic.play();
        isGameover = false;
+       score = 0;
         TetrisMusic.volume = 0.2;
         this.canvas.width = 100;
         this.canvas.height = 200;
@@ -160,9 +162,10 @@ function updateGameArea() {
 //gameoverlinie
 ctx = myGameArea.context;  
 ctx.beginPath();
-ctx.moveTo(0, 20);
-ctx.lineTo(200, 20);
+ctx.moveTo(0, 10);
+ctx.lineTo(200, 10);
 ctx.stroke();
+
 
     for (let i = 0; i < blocks.length; i++) {
         blocks[i].update();
@@ -179,7 +182,6 @@ myGamepieceCords[1][1] += 1
 myGamepieceCords[2][1] += 1
 myGamepieceCords[3][1] += 1
 distanceTravelledy += 1
-//console.log(distanceTravelledx, distanceTravelledy)
     } 
     else {
 //platzierter Block im Grid markieren
@@ -199,13 +201,15 @@ grid[myGamepieceCords[3][1]][myGamepieceCords[3][0]] = 1;
                     grid[i][q] = 0
                 }
                 for (let j=i; j > 0; j = j-1){
-                    console.log(j)
+                 //   console.log(j)
                     for (p=0; p < 10; p++){
                     if (grid[j][p] == 1) {
                         grid[j][p] = 0;
                         grid[j+1][p] = 1;
                    }}}
-                  
+                 score += 100
+                 console.log(score) 
+                 updateScore()
             }
         }
 //Gameover?
@@ -419,9 +423,13 @@ function Gameover() {
     console.log("Gameover")
     isGameover = true;
     ctx = myGameArea.context;  
-
-
     ctx.font = "20px Arial";
     ctx.fillStyle = "black";
     ctx.fillText("Gameover",5,40);
+}
+
+function updateScore() {
+   let htmlScore = document.getElementById("Score")
+   console.log(htmlScore)
+   htmlScore.innerHTML = "Your Score: " + score;
 }
