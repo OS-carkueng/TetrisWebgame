@@ -122,22 +122,10 @@ function component(width, height, color, x, y, type) {
 }
 
         this.newPos = function() {
-        if (myGameArea.key && myGameArea.key == 37 && cooldown == 0 && canMoveLeft(myGamePiece.x,myGamePiece.y,)==true) 
-            {myGamePiece.x += -10, cooldown = 1,
-            myGamepieceCords[0][0] += -1,
-            myGamepieceCords[1][0] += -1,
-            myGamepieceCords[2][0] += -1,
-            myGamepieceCords[3][0] += -1;
-        distanceTravelledx += -1}
-        if (myGameArea.key && myGameArea.key == 39  && cooldown == 0 && canMoveRight(myGamePiece.x,myGamePiece.y,)==true) 
-            {myGamePiece.x += 10, cooldown = 1
-            myGamepieceCords[0][0] += 1,
-            myGamepieceCords[1][0] += 1,
-            myGamepieceCords[2][0] += 1,
-            myGamepieceCords[3][0] += 1;
-            distanceTravelledx += 1}
+            moveLeft()
+            moveRight()
+
         }     
-        
     }
 }
 
@@ -292,34 +280,8 @@ function randomBlock() {
         RotationState3[2] = [5,1]
         RotationState3[3] = [6,1]
     }
-    //L
-    if (randomNumber==4){
-        myGamePiece = new component(10, 30, "orange", 50, 0,"L");
-        myGamepieceCords[0] = [5,0]
-        myGamepieceCords[1] = [5,1]
-        myGamepieceCords[2] = [5,2]
-        myGamepieceCords[3] = [6,2]
-        myGamePieceType = "L";
-    }
-    //the other L
-    if (randomNumber==2){
-        myGamePiece = new component(10, 30, "blue", 50, 0,"J");
-        myGamepieceCords[0] = [5,0]
-        myGamepieceCords[1] = [5,1]
-        myGamepieceCords[2] = [5,2]
-        myGamepieceCords[3] = [4,2]
-        myGamePieceType = "J";
-    }
-   //T
-    if (randomNumber==3){
-        myGamePiece = new component(30, 10, "blue", 40, 0,"T");
-        myGamepieceCords[0] = [4,1]
-        myGamepieceCords[1] = [5,1]
-        myGamepieceCords[2] = [6,1]
-        myGamepieceCords[3] = [5,0]
-        myGamePieceType = "T";
-    }
-//I
+
+    //I
     if (randomNumber==1){
         myGamePiece = new component(40, 10, "cyan", 30, 0,"I");
         myGamepieceCords[0] = [3,0]
@@ -350,6 +312,35 @@ function randomBlock() {
         RotationState3[3] = [5,4]
 
     }
+    
+    //L
+    if (randomNumber==4){
+        myGamePiece = new component(10, 30, "orange", 50, 0,"L");
+        myGamepieceCords[0] = [5,0]
+        myGamepieceCords[1] = [5,1]
+        myGamepieceCords[2] = [5,2]
+        myGamepieceCords[3] = [6,2]
+        myGamePieceType = "L";
+    }
+    //the other L
+    if (randomNumber==2){
+        myGamePiece = new component(10, 30, "blue", 50, 0,"J");
+        myGamepieceCords[0] = [5,0]
+        myGamepieceCords[1] = [5,1]
+        myGamepieceCords[2] = [5,2]
+        myGamepieceCords[3] = [4,2]
+        myGamePieceType = "J";
+    }
+   //T
+    if (randomNumber==3){
+        myGamePiece = new component(30, 10, "blue", 40, 0,"T");
+        myGamepieceCords[0] = [4,1]
+        myGamepieceCords[1] = [5,1]
+        myGamepieceCords[2] = [6,1]
+        myGamepieceCords[3] = [5,0]
+        myGamePieceType = "T";
+    }
+
     //S
     if (randomNumber==5){
         myGamePiece = new component(20, 10, "green", 40, 0,"S");
@@ -432,4 +423,44 @@ function updateScore() {
    let htmlScore = document.getElementById("Score")
    console.log(htmlScore)
    htmlScore.innerHTML = "Your Score: " + score;
+}
+
+function moveLeft() {
+    if (myGameArea.key && myGameArea.key == 37 && cooldown == 0 && canMoveLeft(myGamePiece.x,myGamePiece.y,)==true) 
+        {myGamePiece.x += -10, cooldown = 1,
+        myGamepieceCords[0][0] += -1,
+        myGamepieceCords[1][0] += -1,
+        myGamepieceCords[2][0] += -1,
+        myGamepieceCords[3][0] += -1;
+    distanceTravelledx += -1}
+}
+
+function moveRight() {
+    if (myGameArea.key && myGameArea.key == 39  && cooldown == 0 && canMoveRight(myGamePiece.x,myGamePiece.y,)==true) 
+        {myGamePiece.x += 10, cooldown = 1
+        myGamepieceCords[0][0] += 1,
+        myGamepieceCords[1][0] += 1,
+        myGamepieceCords[2][0] += 1,
+        myGamepieceCords[3][0] += 1;
+        distanceTravelledx += 1}
+}
+
+function moveRightButton() {
+    if (cooldown == 0 && canMoveRight(myGamePiece.x,myGamePiece.y,)==true) 
+        {myGamePiece.x += 10, cooldown = 1
+        myGamepieceCords[0][0] += 1,
+        myGamepieceCords[1][0] += 1,
+        myGamepieceCords[2][0] += 1,
+        myGamepieceCords[3][0] += 1;
+        distanceTravelledx += 1}
+}
+
+function moveLeftButton() {
+    if (cooldown == 0 && canMoveLeft(myGamePiece.x,myGamePiece.y,)==true) 
+        {myGamePiece.x += -10, cooldown = 1,
+        myGamepieceCords[0][0] += -1,
+        myGamepieceCords[1][0] += -1,
+        myGamepieceCords[2][0] += -1,
+        myGamepieceCords[3][0] += -1;
+    distanceTravelledx += -1}
 }

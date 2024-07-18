@@ -5,14 +5,19 @@
 <audio id="TetrisMusic">
     <source src="Tetris.mp3">
 </audio>
-<h1>Up arrow to rotate <h1>
-<h1>Left/right arrow to move </h1>
-<h1 id="Score">Your Score: 0</h1>
+
 </head>
 
 
 <body onload="startGame()">
 <script src="main.js"></script>
-
+<div class="buttonGroupe">
+<button class="button" onclick="moveLeftButton()">left</button>
+<button class="button" onclick="rotateClockwise()">rotate</button>
+<button class="button" onclick=" moveRightButton()">right</button>
+<h1>Up arrow to rotate <h1>
+    <h1>Left/right arrow to move </h1>
+    <h1 id="Score">Your Score: 0</h1>
+</div>
 </body>
 </html>
