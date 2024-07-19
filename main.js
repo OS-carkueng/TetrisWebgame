@@ -43,7 +43,7 @@ function startGame() {
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
-       //TetrisMusic.play();
+       TetrisMusic.play();
        isGameover = false;
        score = 0;
         TetrisMusic.volume = 0.2;
@@ -53,7 +53,7 @@ var myGameArea = {
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 10);
         this.interval = setInterval(blockFall, 200)
-        this.interval = setInterval(inputLag, 200)
+        this.interval = setInterval(inputLag, 300)
         window.addEventListener('keydown', function (e) {
             myGameArea.key = e.keyCode;
         })
@@ -92,14 +92,39 @@ function component(width, height, color, x, y, type) {
         if (rotationState == 1 || rotationState == 3){
         ctx.fillRect(this.x+20, this.y+10, this.height, this.width);}    
     }
-    if (type=="L"||type=="J"){
+    if (type=="L"){
         ctx = myGameArea.context;
         ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-        if (type=="L"){
-        ctx.fillRect(this.x, this.y+20, 20, 10);}
-        if (type=="J"){
+        if (rotationState==0){
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+            ctx.fillRect(this.x, this.y+20, 20, 10);}
+        if (rotationState==1){
+            ctx.fillRect(this.x-10, this.y, this.height, this.width);
+            ctx.fillRect(this.x, this.y+10, -10, 10);}
+        if (rotationState==2){
+             ctx.fillRect(this.x, this.y, this.width, this.height);
+            ctx.fillRect(this.x-10, this.y, 20, 10);}
+        if (rotationState==3){
+            ctx.fillRect(this.x-10, this.y, this.height, this.width);
+            ctx.fillRect(this.x+20, this.y-10, -10, 10);}
+
+    }
+    if (type=="J"){
+        ctx = myGameArea.context;
+        ctx.fillStyle = color;
+        if (rotationState==0){
+            ctx.fillRect(this.x, this.y, this.width, this.height);
             ctx.fillRect(this.x, this.y+20, -10, 10);}
+        if (rotationState==1){
+            ctx.fillRect(this.x-20, this.y+10, this.height, this.width);
+            ctx.fillRect(this.x-10, this.y, -10, 10);}
+        if (rotationState==2){
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+            ctx.fillRect(this.x, this.y, 20, 10);}
+        if (rotationState==3){
+            ctx.fillRect(this.x-20, this.y+10, this.height, this.width);
+            ctx.fillRect(this.x+10, this.y+20, -10, 10);}
+        
     }
     if (type=="S"){
         ctx = myGameArea.context;
@@ -116,8 +141,19 @@ function component(width, height, color, x, y, type) {
     if (type=="T"){
         ctx = myGameArea.context;
         ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-        ctx.fillRect(this.x+10, this.y, 10, -10);
+
+        if (rotationState==0){
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+            ctx.fillRect(this.x+10, this.y, 10, -10);}
+        if (rotationState==1){
+            ctx.fillRect(this.x+10, this.y, this.height, this.width);
+            ctx.fillRect(this.x+30, this.y+10, -10, 10);}
+        if (rotationState==2){
+            ctx.fillRect(this.x, this.y+10, this.width, this.height);
+            ctx.fillRect(this.x+10, this.y+30, 10, -10);}
+        if (rotationState==3){
+            ctx.fillRect(this.x+10, this.y, this.height, this.width);
+            ctx.fillRect(this.x+10, this.y+10, -10, 10);}
     }
 }
 
@@ -242,8 +278,8 @@ else {return true;}
 
 function randomBlock() {
  //   let randomNumber = Math.floor(Math.random() * 7);
-    let randomNumber = Math.floor(Math.random() * 2);
-
+    let randomNumber = Math.floor(Math.random() * 5);
+//randomNumber=3;
     //square
     if (randomNumber==0){
         myGamePiece = new component(20, 20, "yellow", 50, 0,"square");
@@ -254,12 +290,6 @@ function randomBlock() {
         myGamePieceType = "square";
         rotationState = 0;
 
-       // for (let i = 0; i > 4; i++) {
-       //     AllRotationStates[i][0] = [5,0]
-       //     AllRotationStates[i][1] = [6,0]
-       //     AllRotationStates[i][2] = [5,1]
-       //     AllRotationStates[i][3] = [6,1]
-       // }
         RotationState0[0] = [5,0]
         RotationState0[1] = [6,0]
         RotationState0[2] = [5,1]
@@ -288,7 +318,6 @@ function randomBlock() {
         myGamepieceCords[1] = [4,0]
         myGamepieceCords[2] = [5,0]
         myGamepieceCords[3] = [6,0]
-        rotationState = 0;
         myGamePieceType = "I";
 
         RotationState0[0] = [3,0]
@@ -310,19 +339,12 @@ function randomBlock() {
         RotationState3[1] = [5,2]
         RotationState3[2] = [5,3]
         RotationState3[3] = [5,4]
+        rotationState = 0;
 
     }
     
-    //L
-    if (randomNumber==4){
-        myGamePiece = new component(10, 30, "orange", 50, 0,"L");
-        myGamepieceCords[0] = [5,0]
-        myGamepieceCords[1] = [5,1]
-        myGamepieceCords[2] = [5,2]
-        myGamepieceCords[3] = [6,2]
-        myGamePieceType = "L";
-    }
-    //the other L
+
+    //J
     if (randomNumber==2){
         myGamePiece = new component(10, 30, "blue", 50, 0,"J");
         myGamepieceCords[0] = [5,0]
@@ -330,6 +352,27 @@ function randomBlock() {
         myGamepieceCords[2] = [5,2]
         myGamepieceCords[3] = [4,2]
         myGamePieceType = "J";
+
+        RotationState0[0] = [5,0]
+        RotationState0[1] = [5,1]
+        RotationState0[2] = [5,2]
+        RotationState0[3] = [4,2]
+
+        RotationState1[0] = [3,1]
+        RotationState1[1] = [4,1]
+        RotationState1[2] = [5,1]
+        RotationState1[3] = [3,0]
+
+        RotationState2[0] = [5,0]
+        RotationState2[1] = [5,1]
+        RotationState2[2] = [5,2]
+        RotationState2[3] = [6,0]
+
+        RotationState3[0] = [3,1]
+        RotationState3[1] = [4,1]
+        RotationState3[2] = [5,1]
+        RotationState3[3] = [5,2]
+        rotationState = 0;
     }
    //T
     if (randomNumber==3){
@@ -339,7 +382,59 @@ function randomBlock() {
         myGamepieceCords[2] = [6,1]
         myGamepieceCords[3] = [5,0]
         myGamePieceType = "T";
+
+        RotationState0[0] = [4,1]
+        RotationState0[1] = [5,1]
+        RotationState0[2] = [6,1]
+        RotationState0[3] = [5,0]
+
+        RotationState1[0] = [5,0]
+        RotationState1[1] = [5,1]
+        RotationState1[2] = [5,2]
+        RotationState1[3] = [6,1]
+    
+        RotationState2[0] = [4,1]
+        RotationState2[1] = [5,1]
+        RotationState2[2] = [6,1]
+        RotationState2[3] = [5,2]
+
+        RotationState3[0] = [5,0]
+        RotationState3[1] = [5,1]
+        RotationState3[2] = [5,2]
+        RotationState3[3] = [4,1]
+        rotationState = 0;
     }
+
+        //L
+        if (randomNumber==4){
+            myGamePiece = new component(10, 30, "orange", 50, 0,"L");
+            myGamepieceCords[0] = [5,0]
+            myGamepieceCords[1] = [5,1]
+            myGamepieceCords[2] = [5,2]
+            myGamepieceCords[3] = [6,2]
+            myGamePieceType = "L";
+    
+            RotationState0[0] = [5,0]
+            RotationState0[1] = [5,1]
+            RotationState0[2] = [5,2]
+            RotationState0[3] = [6,2]
+
+            RotationState1[0] = [4,1]
+            RotationState1[1] = [5,1]
+            RotationState1[2] = [6,1]
+            RotationState1[3] = [4,2]
+    
+            RotationState2[0] = [5,0]
+            RotationState2[1] = [5,1]
+            RotationState2[2] = [5,2]
+            RotationState2[3] = [4,0]
+
+            RotationState3[0] = [4,1]
+            RotationState3[1] = [5,1]
+            RotationState3[2] = [6,1]
+            RotationState3[3] = [6,0]
+            rotationState = 0;
+        }
 
     //S
     if (randomNumber==5){
@@ -392,8 +487,8 @@ function rotateCounterClockwise(){
 }
 
     function checkRotationCollision() {
-        console.log(rotationState)
-        console.log(AllRotationStates[rotationState])
+      console.log(rotationState)
+        //console.log(AllRotationStates[rotationState])
 
             for (let i=0;i<4;i++) {
                 if (grid[AllRotationStates[rotationState][i][1]+distanceTravelledy][AllRotationStates[rotationState][i][0]+distanceTravelledx]==1 || grid[AllRotationStates[rotationState][i][1]+distanceTravelledy][AllRotationStates[rotationState][i][0]+distanceTravelledx]=== undefined){
