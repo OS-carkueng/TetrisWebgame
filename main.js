@@ -129,14 +129,36 @@ function component(width, height, color, x, y, type) {
     if (type=="S"){
         ctx = myGameArea.context;
         ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-        ctx.fillRect(this.x+10, this.y-10, 20, 10);
+
+        if (rotationState==0){
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+            ctx.fillRect(this.x+10, this.y-10, 20, 10);}
+        if (rotationState==1){
+            ctx.fillRect(this.x+20, this.y, this.height, this.width);
+            ctx.fillRect(this.x+10, this.y-10, 10,20);}
+        if (rotationState==2){
+            ctx.fillRect(this.x, this.y+10, this.width, this.height);
+            ctx.fillRect(this.x+10, this.y, 20, 10);}
+        if (rotationState==3){
+            ctx.fillRect(this.x+10, this.y, this.height, this.width);
+            ctx.fillRect(this.x, this.y-10, 10,20);}
     }
     if (type=="Z"){
         ctx = myGameArea.context;
         ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-        ctx.fillRect(this.x-10, this.y-10, 20, 10);
+
+        if (rotationState==0){
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+            ctx.fillRect(this.x-10, this.y-10, 20, 10);}
+        if (rotationState==1){
+            ctx.fillRect(this.x, this.y, this.height, this.width);
+            ctx.fillRect(this.x+10, this.y-10, 10,20);}
+        if (rotationState==2){
+            ctx.fillRect(this.x, this.y+10, this.width, this.height);
+            ctx.fillRect(this.x-10, this.y, 20, 10);}
+        if (rotationState==3){
+            ctx.fillRect(this.x-10, this.y, this.height, this.width);
+            ctx.fillRect(this.x, this.y-10, 10,20);}
     }
     if (type=="T"){
         ctx = myGameArea.context;
@@ -279,7 +301,7 @@ else {return true;}
 function randomBlock() {
  //   let randomNumber = Math.floor(Math.random() * 7);
     let randomNumber = Math.floor(Math.random() * 5);
-//randomNumber=3;
+randomNumber=6;
     //square
     if (randomNumber==0){
         myGamePiece = new component(20, 20, "yellow", 50, 0,"square");
@@ -444,6 +466,27 @@ function randomBlock() {
         myGamepieceCords[2] = [5,0]
         myGamepieceCords[3] = [6,0]
         myGamePieceType = "S";
+
+        RotationState0[0] = [4,1]
+        RotationState0[1] = [5,1]
+        RotationState0[2] = [5,0]
+        RotationState0[3] = [6,0]
+
+        RotationState1[0] = [5,0]
+        RotationState1[1] = [5,1]
+        RotationState1[2] = [6,2]
+        RotationState1[3] = [6,1]
+    
+        RotationState2[0] = [4,2]
+        RotationState2[1] = [5,1]
+        RotationState2[2] = [6,1]
+        RotationState2[3] = [5,2]
+
+        RotationState3[0] = [4,0]
+        RotationState3[1] = [4,1]
+        RotationState3[2] = [5,2]
+        RotationState3[3] = [5,1]
+        rotationState = 0;
     }
 
     //Z
@@ -455,6 +498,26 @@ function randomBlock() {
         myGamepieceCords[3] = [6,1]
         rotationState = 0;
         myGamePieceType = "Z";
+
+        RotationState0[0] = [4,0]
+        RotationState0[1] = [5,0]
+        RotationState0[2] = [5,1]
+        RotationState0[3] = [6,1]
+
+        RotationState1[0] = [6,0]
+        RotationState1[1] = [6,1]
+        RotationState1[2] = [5,2]
+        RotationState1[3] = [5,1]
+    
+        RotationState2[0] = [4,1]
+        RotationState2[1] = [5,2]
+        RotationState2[2] = [6,2]
+        RotationState2[3] = [5,1]
+
+        RotationState3[0] = [5,0]
+        RotationState3[1] = [5,1]
+        RotationState3[2] = [4,2]
+        RotationState3[3] = [4,1]
     }
 }
 
