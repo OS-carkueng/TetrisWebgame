@@ -157,8 +157,8 @@ function component(width, height, color, x, y, type) {
             ctx.fillRect(this.x, this.y+10, this.width, this.height);
             ctx.fillRect(this.x-10, this.y, 20, 10);}
         if (rotationState==3){
-            ctx.fillRect(this.x-10, this.y, this.height, this.width);
-            ctx.fillRect(this.x, this.y-10, 10,20);}
+            ctx.fillRect(this.x, this.y, this.height, this.width);
+            ctx.fillRect(this.x+10, this.y-10, 10,20);}
     }
     if (type=="T"){
         ctx = myGameArea.context;
@@ -299,9 +299,7 @@ else {return true;}
 
 
 function randomBlock() {
- //   let randomNumber = Math.floor(Math.random() * 7);
-    let randomNumber = Math.floor(Math.random() * 5);
-randomNumber=6;
+ let randomNumber = Math.floor(Math.random() * 7);
     //square
     if (randomNumber==0){
         myGamePiece = new component(20, 20, "yellow", 50, 0,"square");
@@ -514,10 +512,10 @@ randomNumber=6;
         RotationState2[2] = [6,2]
         RotationState2[3] = [5,1]
 
-        RotationState3[0] = [5,0]
-        RotationState3[1] = [5,1]
-        RotationState3[2] = [4,2]
-        RotationState3[3] = [4,1]
+        RotationState3[0] = [6,0]
+        RotationState3[1] = [6,1]
+        RotationState3[2] = [5,2]
+        RotationState3[3] = [5,1]
     }
 }
 
@@ -543,20 +541,32 @@ function rotateClockwise(){
 }
 
 function rotateCounterClockwise(){
+    collisonstate = 0;
+    rotationStateSave = rotationState;
+
     if (rotationState==0){
         rotationState = 3;
     }
     else {rotationState += -1}
+    checkRotationCollision()
+
+    if (collisonstate==0) {
+        //  console.log("clear")
+          for (let i=0;i<4;i++) {
+          myGamepieceCords[i][1] = AllRotationStates[rotationState][i][1] + distanceTravelledy
+          myGamepieceCords[i][0] = AllRotationStates[rotationState][i][0] + distanceTravelledx
+      
+          }}
+    else {
+        rotationState = rotationStateSave;
+    }
 }
 
     function checkRotationCollision() {
       console.log(rotationState)
         //console.log(AllRotationStates[rotationState])
-
             for (let i=0;i<4;i++) {
-                if (grid[AllRotationStates[rotationState][i][1]+distanceTravelledy][AllRotationStates[rotationState][i][0]+distanceTravelledx]==1 || grid[AllRotationStates[rotationState][i][1]+distanceTravelledy][AllRotationStates[rotationState][i][0]+distanceTravelledx]=== undefined){
-                
-            console.log("collission")   
+                if (grid[AllRotationStates[rotationState][i][1]+distanceTravelledy][AllRotationStates[rotationState][i][0]+distanceTravelledx]==1 || grid[AllRotationStates[rotationState][i][1]+distanceTravelledy][AllRotationStates[rotationState][i][0]+distanceTravelledx]=== undefined){  
             collisonstate = 1;
             return true;
             }}
@@ -622,3 +632,11 @@ function moveLeftButton() {
         myGamepieceCords[3][0] += -1;
     distanceTravelledx += -1}
 }
+
+//-Highscore
+//start/restart button
+//-insta drop
+//-ui cleanup
+//-save button
+//-preview
+//-
